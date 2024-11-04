@@ -70,6 +70,10 @@ contract ContractTest is Test {
         assertEq(data, hex"");
 
         // Wrap around buflen once backward.
+        (ret, data) = unit.call(bytes.concat(bytes32(number-buflen)));
+        assertFalse(ret);
+        assertEq(data, hex"");
+
         (ret, data) = unit.call(bytes.concat(bytes32(number-buflen-1)));
         assertFalse(ret);
         assertEq(data, hex"");
@@ -136,6 +140,12 @@ contract ContractTest is Test {
             assertEq(data, hex"");
             vm.roll(block.number+1);
         }
+
+        // At this point, block hashes for heights 0 to `buflen - 1` are stored in storage,
+        // and they are fully accessible at block height `buflen`.
+        // Since the current block number is `buflen + 1`, we need to roll back to `buflen` to access them.
+        assertEq(block.number, buflen + 1);
+        vm.roll(buflen);
 
         // Attempt to read all values in same block context.
         for (uint256 i = 0; i < buflen; i += 1) {
