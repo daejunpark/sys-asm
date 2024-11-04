@@ -12,7 +12,7 @@
 ;; ----------------------------------------------------------------------------
 
 ;; BUFLEN returns the HISTORY_BUFFER_LENGTH as defined in the EIP.
-#define BUFLEN 8191
+#define BUFLEN 8192
 
 ;; SYSADDR is the address which calls the contract to submit a new root.
 #define SYSADDR 0xfffffffffffffffffffffffffffffffffffffffe
